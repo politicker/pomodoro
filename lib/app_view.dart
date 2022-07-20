@@ -16,17 +16,15 @@ class App extends StatelessWidget {
         title: const Text("Pomodoro"),
         actions: [
           MaterialButton(
-              onPressed: () {},
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SettingsView(),
-                      ),
-                    );
-                  },
-                  child: const Icon(Icons.settings)))
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsView(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.settings))
         ],
       ),
       body: Center(

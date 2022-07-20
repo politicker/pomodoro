@@ -27,8 +27,9 @@ class AppModel extends ChangeNotifier {
     _startTimer();
   }
 
-  void setWorkDuration(Duration duration) {
-    workDuration = duration;
+  void setWorkDuration(int duration) {
+    workDuration = Duration(minutes: duration);
+    currentTimerSeconds = workDuration.inSeconds;
     notifyListeners();
   }
 
