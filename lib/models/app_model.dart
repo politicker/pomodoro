@@ -28,8 +28,11 @@ class AppModel extends ChangeNotifier {
   }
 
   void setWorkDuration(int duration) {
+    _stopTimer();
+
     workDuration = Duration(minutes: duration);
     currentTimerSeconds = workDuration.inSeconds;
+
     notifyListeners();
   }
 
