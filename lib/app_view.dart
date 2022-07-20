@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_macos_menubar_example/settings_view.dart';
 import 'package:provider/provider.dart';
 
 import 'models/app_model.dart';
@@ -14,7 +15,18 @@ class App extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: const Text("Pomodoro"),
         actions: [
-          MaterialButton(onPressed: () {}, child: const Icon(Icons.settings))
+          MaterialButton(
+              onPressed: () {},
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsView(),
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.settings)))
         ],
       ),
       body: Center(

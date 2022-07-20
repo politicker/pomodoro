@@ -66,8 +66,7 @@ class AppModel extends ChangeNotifier {
       const Duration(seconds: 1),
       (Timer timer) {
         if (currentTimerSeconds == 0) {
-          timer.cancel();
-          _currentTimer = null;
+          _stopTimer();
         } else {
           currentTimerSeconds = currentTimerSeconds -= 1;
           notifyListeners();
