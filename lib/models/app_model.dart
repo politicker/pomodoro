@@ -25,6 +25,8 @@ class AppModel extends ChangeNotifier {
     return _formatTime(currentTimerSeconds);
   }
 
+  bool get isRunning => _currentTimer != null;
+
   void toggleTimer() {
     if (_currentTimer != null) {
       _stopTimer();

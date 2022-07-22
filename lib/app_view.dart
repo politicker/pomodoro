@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_macos_menubar_example/settings_view.dart';
 import 'package:provider/provider.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'models/app_model.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final startSoundPlayer = AudioPlayer();
+  final finishSoundPlayer = AudioPlayer();
+
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,14 @@ class App extends StatelessWidget {
                   Row(children: [
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await startSoundPlayer.setSource(
+                                  AssetSource('sounds/timer_start.wav'));
+
+                              if (!model.isRunning) {
+                                startSoundPlayer.resume();
+                              }
+
                               model.toggleTimer();
                             },
                             child: Text(model.buttonText))),
