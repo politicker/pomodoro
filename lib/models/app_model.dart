@@ -6,16 +6,17 @@ import 'package:flutter/foundation.dart';
 import '../app_data.dart';
 
 class AppModel extends ChangeNotifier {
-  Duration workDuration = const Duration(minutes: 20);
   Timer? _currentTimer;
 
+  late Duration workDuration;
   late String _currentTimerLabel;
-  late int currentTimerSeconds;
+  late int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
 
   final database = AppData();
 
   AppModel() {
-    currentTimerSeconds = workDuration.inSeconds;
+    _setWorkDuration();
+    // currentTimerSeconds = workDuration.inSeconds;
   }
 
   String get buttonText => _currentTimer == null ? "Start" : "Stop";
@@ -44,20 +45,37 @@ class AppModel extends ChangeNotifier {
       pomodoros[_currentTimerLabel] = '1';
     }
 
-    database.update(pomodoros);
+    database.update(data);
   }
 
   void setTimerLabel(String label) {
     _currentTimerLabel = label;
   }
 
-  void setWorkDuration(int duration) {
+  void setWorkDuration(int duration) async {
     _stopTimer();
 
     workDuration = Duration(minutes: duration);
     currentTimerSeconds = workDuration.inSeconds;
 
+    final data = await database.load();
+    final settings = data['settings'] as Map<String, dynamic>;
+
+    settings['workDuration'] = workDuration.inMinutes;
+
+    database.update(data);
+
     notifyListeners();
+  }
+
+  Future<void> _setWorkDuration() {
+    return database.load().then((data) {
+      final settings = data['settings'] as Map<String, dynamic>;
+
+      workDuration = Duration(minutes: settings['workDuration']);
+      currentTimerSeconds = workDuration.inSeconds;
+      notifyListeners();
+    });
   }
 
   String _formatTime(int secTime) {

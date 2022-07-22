@@ -44,7 +44,9 @@ class AppData {
       return;
     }
 
-    file.writeAsStringSync('{ "settings": {}, "pomodoros": {} }', flush: true);
+    file.writeAsStringSync(
+        '{ "settings": { "workDuration": 20 }, "pomodoros": {} }',
+        flush: true);
   }
 
   Future<String> _configFilePath() async {
