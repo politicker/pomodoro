@@ -12,7 +12,7 @@ class App extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        // the App.build method, and use it to set our app bar title.
         title: const Text("Pomodoro"),
         actions: [
           MaterialButton(
@@ -35,9 +35,15 @@ class App extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  TextField(
+                    onChanged: (value) {
+                      model.setTimerLabel(value);
+                    },
+                  ),
                   const Spacer(),
                   Text(
-                    model.currentTime(),
+                    model.currentTime,
+                    style: const TextStyle(fontSize: 48),
                   ),
                   const Spacer(),
                   Row(children: [
