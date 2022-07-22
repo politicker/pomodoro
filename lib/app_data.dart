@@ -2,6 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
+/*
+ * AppData class
+ *
+ * This class is used to store and load data from the local storage.
+ *
+ * The data is stored in a JSON file.
+ *
+ * The data is loaded from the JSON file when the app is started.
+ *
+ * The data structure is: { settings: { workDuration: 'minutesCount' }, pomodoros: { 'pomodoro name': 'count of completed' } }
+ */
+
 class AppData {
   final String _fileName = 'database.json';
 
@@ -23,9 +35,16 @@ class AppData {
     File(configPath).writeAsStringSync(raw, flush: true);
   }
 
+  // TODO: Only do this on first app start
   Future<void> _createDatabase() async {
     final configPath = await _configFilePath();
-    File(configPath).writeAsStringSync('{}', flush: true);
+    final file = File(configPath);
+
+    if (file.existsSync()) {
+      return;
+    }
+
+    file.writeAsStringSync('{ "settings": {}, "pomodoros": {} }', flush: true);
   }
 
   Future<String> _configFilePath() async {

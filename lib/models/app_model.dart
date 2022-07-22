@@ -35,15 +35,16 @@ class AppModel extends ChangeNotifier {
 
   Future<void> saveCurrentTimer() async {
     final data = await database.load();
+    final pomodoros = data['pomodoros'] as Map<String, dynamic>;
 
-    if (data.containsKey(_currentTimerLabel)) {
-      final count = int.parse(data[_currentTimerLabel]);
-      data[_currentTimerLabel] = '${count + 1}';
+    if (pomodoros.containsKey(_currentTimerLabel)) {
+      final count = int.parse(pomodoros[_currentTimerLabel]);
+      pomodoros[_currentTimerLabel] = '${count + 1}';
     } else {
-      data[_currentTimerLabel] = '1';
+      pomodoros[_currentTimerLabel] = '1';
     }
 
-    database.update(data);
+    database.update(pomodoros);
   }
 
   void setTimerLabel(String label) {
