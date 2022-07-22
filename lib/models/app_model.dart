@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import '../app_data.dart';
+
 class AppModel extends ChangeNotifier {
   Duration workDuration = const Duration(minutes: 20);
   Timer? _currentTimer;
 
   late String _currentTimerLabel;
   late int currentTimerSeconds;
+
+  final database = AppData();
 
   AppModel() {
     currentTimerSeconds = workDuration.inSeconds;
@@ -27,6 +31,19 @@ class AppModel extends ChangeNotifier {
     }
 
     _startTimer();
+  }
+
+  Future<void> saveCurrentTimer() async {
+    final data = await database.load();
+
+    if (data.containsKey(_currentTimerLabel)) {
+      final count = int.parse(data[_currentTimerLabel]);
+      data[_currentTimerLabel] = '${count + 1}';
+    } else {
+      data[_currentTimerLabel] = '1';
+    }
+
+    database.update(data);
   }
 
   void setTimerLabel(String label) {
@@ -64,6 +81,11 @@ class AppModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _onTimerComplete() {
+    saveCurrentTimer();
+    _stopTimer();
+  }
+
   void _startTimer() {
     if (_currentTimer != null) {
       return;
@@ -76,7 +98,7 @@ class AppModel extends ChangeNotifier {
       const Duration(seconds: 1),
       (Timer timer) {
         if (currentTimerSeconds == 0) {
-          _stopTimer();
+          _onTimerComplete();
         } else {
           currentTimerSeconds = currentTimerSeconds -= 1;
           notifyListeners();
