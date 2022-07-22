@@ -6,15 +6,17 @@ import 'package:flutter/foundation.dart';
 class AppModel extends ChangeNotifier {
   Duration workDuration = const Duration(minutes: 20);
   Timer? _currentTimer;
+
+  late String _currentTimerLabel;
   late int currentTimerSeconds;
 
   AppModel() {
     currentTimerSeconds = workDuration.inSeconds;
   }
 
-  get buttonText => _currentTimer == null ? "Start" : "Stop";
+  String get buttonText => _currentTimer == null ? "Start" : "Stop";
 
-  String currentTime() {
+  String get currentTime {
     return _formatTime(currentTimerSeconds);
   }
 
@@ -25,6 +27,10 @@ class AppModel extends ChangeNotifier {
     }
 
     _startTimer();
+  }
+
+  void setTimerLabel(String label) {
+    _currentTimerLabel = label;
   }
 
   void setWorkDuration(int duration) {
