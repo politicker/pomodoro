@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_macos_menubar_example/app_view.dart';
 import 'package:provider/provider.dart';
 
