@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro/app_view.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,10 @@ void main() {
     ChangeNotifierProvider(
         create: (context) => AppModel(), child: const MyApp()),
   );
+
+  doWhenWindowReady(() {
+    appWindow.hide();
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -23,7 +28,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final SystemTray systemTray = SystemTray();
-  final AppWindow appWindow = AppWindow();
   bool windowOpen = false;
 
   @override
@@ -37,9 +41,7 @@ class _MyAppState extends State<MyApp> {
         ? 'assets/icons/system_tray.ico'
         : 'assets/icons/system_tray.png';
 
-    final AppWindow appWindow = AppWindow();
     final SystemTray systemTray = SystemTray();
-    appWindow.hide();
 
     // We first init the systray menu
     await systemTray.initSystemTray(
