@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_macos_menubar_example/settings_view.dart';
-import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+import 'package:pomodoro/settings_view.dart';
+import 'package:provider/provider.dart';
 
 import 'models/app_model.dart';
 
