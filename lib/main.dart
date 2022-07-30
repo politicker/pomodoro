@@ -25,6 +25,7 @@ void main() async {
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setSkipTaskbar(true);
+    await windowManager.setAlwaysOnTop(true);
     await windowManager.show();
     await windowManager.focus();
   });
@@ -33,9 +34,6 @@ void main() async {
     ChangeNotifierProvider(
         create: (context) => AppModel(), child: const MyApp()),
   );
-
-  await windowManager.setAlwaysOnTop(true);
-  await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
 }
 
 class MyApp extends StatefulWidget {
