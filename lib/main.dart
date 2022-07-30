@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
       if (eventName == kSystemTrayEventClick) {
         if (await windowManager.isVisible()) {
           debugPrint("closing window");
-          windowManager.hide();
+          await windowManager.hide();
         } else {
           debugPrint("opening window");
           await windowManager.show();
