@@ -15,6 +15,20 @@ void main() async {
   // Must add this line.
   await windowManager.ensureInitialized();
 
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(800, 600),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.setSkipTaskbar(true);
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
   runApp(
     ChangeNotifierProvider(
         create: (context) => AppModel(), child: const MyApp()),
