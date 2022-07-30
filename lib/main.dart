@@ -2,6 +2,7 @@ import 'dart:io';
 
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pomodoro/app_view.dart';
 import 'package:provider/provider.dart';
 import 'package:system_tray/system_tray.dart';
@@ -10,10 +11,17 @@ import 'package:window_manager/window_manager.dart';
 import 'models/app_model.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Must add this line.
+  await windowManager.ensureInitialized();
+
   runApp(
     ChangeNotifierProvider(
         create: (context) => AppModel(), child: const MyApp()),
   );
+
+  await windowManager.setAlwaysOnTop(true);
+  await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
 }
 
 class MyApp extends StatefulWidget {
@@ -60,7 +68,8 @@ class _MyAppState extends State<MyApp> {
           windowManager.hide();
         } else {
           debugPrint("opening window");
-          windowManager.show();
+          await windowManager.show();
+          // await windowManager.setSkipTaskbar(true);
         }
       }
     });
@@ -69,12 +78,23 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pomodoro',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+    return RawKeyboardListener(
+      autofocus: true,
+      focusNode: FocusNode(),
+      onKey: (event) {
+        if (event.runtimeType == RawKeyUpEvent) {
+          if (event.physicalKey == PhysicalKeyboardKey.escape) {
+            windowManager.hide();
+          }
+        }
+      },
+      child: MaterialApp(
+        title: 'Pomodoro',
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+        ),
+        home: App(),
       ),
-      home: App(),
     );
   }
 }
