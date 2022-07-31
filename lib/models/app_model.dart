@@ -55,7 +55,7 @@ class AppModel extends ChangeNotifier {
   void setWorkDuration(int duration) async {
     _stopTimer();
 
-    workDuration = Duration(minutes: duration);
+    workDuration = Duration(seconds: duration);
     currentTimerSeconds = workDuration.inSeconds;
 
     final data = await database.load();

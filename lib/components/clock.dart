@@ -19,9 +19,7 @@ class Clock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var formatted = _formatTime(time);
-
-    _controller.text = formatted;
+    _controller.text = _formatTime(time);
 
     return TextField(
         keyboardType: TextInputType.number,
@@ -33,8 +31,6 @@ class Clock extends StatelessWidget {
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 120),
         onEditingComplete: () {
-          var seconds = _clockTimeToSeconds(_controller.text);
-
           onChanged(_clockTimeToSeconds(_controller.text));
         },
         decoration: const InputDecoration(
