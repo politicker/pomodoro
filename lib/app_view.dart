@@ -1,8 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:pomodoro/components/clock.dart';
+import 'package:pomodoro/components/timer_action_button.dart';
 import 'package:pomodoro/settings_view.dart';
 import 'package:provider/provider.dart';
 
+import 'components/editable_label.dart';
 import 'models/app_model.dart';
 
 class App extends StatelessWidget {
@@ -14,56 +17,31 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our app bar title.
-        title: const Text("Pomodoro"),
-        actions: [
-          MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsView(),
-                  ),
-                );
-              },
-              child: const Icon(Icons.settings))
-        ],
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Consumer<AppModel>(
-            builder: (context, model, child) {
+            builder: (context, timer, child) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  TextField(
-                    onChanged: (value) {
-                      model.setTimerLabel(value);
-                    },
+                  const Spacer(),
+                  EditableLabel(onChanged: timer.setTimerLabel),
+                  Clock(
+                    time: timer.currentTime,
+                    readOnly: timer.isRunning,
+                    onChanged: timer.setWorkDuration,
                   ),
                   const Spacer(),
-                  Text(
-                    model.currentTime,
-                    style: const TextStyle(fontSize: 48),
-                  ),
-                  const Spacer(),
-                  Row(children: [
-                    Expanded(
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await startSoundPlayer.setSource(
-                                  AssetSource('sounds/timer_start.wav'));
-
-                              if (!model.isRunning) {
-                                startSoundPlayer.resume();
-                              }
-
-                              model.toggleTimer();
-                            },
-                            child: Text(model.buttonText))),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    TimerActionButton(
+                      icon: timer.isRunning ? Icons.pause : Icons.play_arrow,
+                      onPressed: timer.toggle,
+                    ),
+                    TimerActionButton(
+                        icon: Icons.refresh, onPressed: timer.toggle),
+                    TimerActionButton(icon: Icons.settings, onPressed: () {}),
                   ])
                 ],
               );
@@ -71,11 +49,6 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

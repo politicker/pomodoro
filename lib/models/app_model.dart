@@ -21,13 +21,11 @@ class AppModel extends ChangeNotifier {
 
   String get buttonText => _currentTimer == null ? "Start" : "Stop";
 
-  String get currentTime {
-    return _formatTime(currentTimerSeconds);
-  }
+  int get currentTime => currentTimerSeconds;
 
   bool get isRunning => _currentTimer != null;
 
-  void toggleTimer() {
+  void toggle() {
     if (_currentTimer != null) {
       _stopTimer();
       return;
@@ -36,7 +34,7 @@ class AppModel extends ChangeNotifier {
     _startTimer();
   }
 
-  Future<void> saveCurrentTimer() async {
+  Future<void> save() async {
     final data = await database.load();
     final pomodoros = data['pomodoros'] as Map<String, dynamic>;
 
@@ -80,21 +78,6 @@ class AppModel extends ChangeNotifier {
     });
   }
 
-  String _formatTime(int secTime) {
-    String getParsedTime(String time) {
-      if (time.length <= 1) return "0$time";
-      return time;
-    }
-
-    int min = secTime ~/ 60;
-    int sec = secTime % 60;
-
-    String parsedTime =
-        getParsedTime(min.toString()) + ":" + getParsedTime(sec.toString());
-
-    return parsedTime;
-  }
-
   void _stopTimer() {
     _currentTimer?.cancel();
     _currentTimer = null;
@@ -103,7 +86,7 @@ class AppModel extends ChangeNotifier {
   }
 
   void _onTimerComplete() {
-    saveCurrentTimer();
+    save();
     _stopTimer();
   }
 
