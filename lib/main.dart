@@ -102,8 +102,11 @@ class _MyAppState extends State<MyApp> {
       },
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-        ),
+            primarySwatch: Colors.lightBlue,
+            primaryColor: Colors.black,
+            textTheme: Theme.of(context)
+                .textTheme
+                .apply(bodyColor: Colors.black, displayColor: Colors.black)),
         home: const ProgressBar(),
       ),
     );

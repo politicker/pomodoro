@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:pomodoro/models/ticker.dart' as tick;
 
 import '../app_data.dart';
-import 'package:pomodoro/models/ticker.dart' as tick;
 
 enum TimerStatus { initial, active, paused, complete }
 
