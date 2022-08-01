@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import '../app_data.dart';
+import 'package:pomodoro/models/ticker.dart' as tick;
+
+enum TimerStatus { initial, active, paused, complete }
 
 class AppModel extends ChangeNotifier {
   Timer? _currentTimer;
+
+  StreamSubscription<int>? _tickerSubscription;
+  final ticker = tick.Ticker();
 
   late Duration workDuration;
   late String _currentTimerLabel;
@@ -16,22 +22,47 @@ class AppModel extends ChangeNotifier {
 
   AppModel() {
     _setWorkDuration();
-    // currentTimerSeconds = workDuration.inSeconds;
   }
 
-  String get buttonText => _currentTimer == null ? "Start" : "Stop";
-
   int get currentTime => currentTimerSeconds;
+  bool isRunning = false;
 
-  bool get isRunning => _currentTimer != null;
+  void startTimer() async {
+    isRunning = true;
+    notifyListeners();
+    await _tickerSubscription?.cancel();
+    _tickerSubscription =
+        ticker.tick(ticks: workDuration.inSeconds).listen(_handleTick);
+  }
 
-  void toggle() {
-    if (_currentTimer != null) {
-      _stopTimer();
+  void resetTimer() async {
+    await _tickerSubscription?.cancel();
+
+    currentTimerSeconds = workDuration.inSeconds;
+    isRunning = false;
+    notifyListeners();
+  }
+
+  void pauseTimer() {
+    _tickerSubscription?.pause();
+    isRunning = false;
+    notifyListeners();
+  }
+
+  void resumeTimer() {
+    _tickerSubscription?.resume();
+    isRunning = true;
+    notifyListeners();
+  }
+
+  void _handleTick(int seconds) {
+    if (seconds == 0) {
+      _onTimerComplete();
       return;
     }
 
-    _startTimer();
+    currentTimerSeconds = seconds;
+    notifyListeners();
   }
 
   Future<void> save() async {
@@ -78,36 +109,8 @@ class AppModel extends ChangeNotifier {
     });
   }
 
-  void _stopTimer() {
-    _currentTimer?.cancel();
-    _currentTimer = null;
-    currentTimerSeconds = workDuration.inSeconds;
-    notifyListeners();
-  }
-
   void _onTimerComplete() {
     save();
-    _stopTimer();
-  }
-
-  void _startTimer() {
-    if (_currentTimer != null) {
-      return;
-    }
-
-    currentTimerSeconds = currentTimerSeconds -= 1;
-    notifyListeners();
-
-    _currentTimer = Timer.periodic(
-      const Duration(seconds: 1),
-      (Timer timer) {
-        if (currentTimerSeconds == 0) {
-          _onTimerComplete();
-        } else {
-          currentTimerSeconds = currentTimerSeconds -= 1;
-          notifyListeners();
-        }
-      },
-    );
+    resetTimer();
   }
 }

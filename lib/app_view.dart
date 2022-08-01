@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:pomodoro/components/action_bar.dart';
 import 'package:pomodoro/components/clock.dart';
 import 'package:pomodoro/components/timer_action_button.dart';
 import 'package:provider/provider.dart';
@@ -33,17 +34,9 @@ class App extends StatelessWidget {
                     onChanged: timer.setWorkDuration,
                   ),
                   const Spacer(),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    TimerActionButton(
-                      icon: timer.isRunning ? Icons.pause : Icons.play_arrow,
-                      onPressed: timer.toggle,
-                    ),
-                    const SizedBox(width: 30),
-                    TimerActionButton(
-                        icon: Icons.refresh, onPressed: timer.toggle),
-                    const SizedBox(width: 30),
-                    TimerActionButton(icon: Icons.settings, onPressed: () {}),
-                  ])
+                  ActionBar(
+                    timer: timer,
+                  ),
                 ],
               );
             },
