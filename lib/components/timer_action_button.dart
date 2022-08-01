@@ -16,6 +16,9 @@ class TimerActionButton extends StatelessWidget {
       width: 35,
       height: 35,
       child: IconButton(
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         icon: Icon(
           icon,
           size: 25,
