@@ -15,9 +15,12 @@ class TimerActionButton extends StatelessWidget {
     return SizedBox(
       width: 35,
       height: 35,
-      child: FloatingActionButton(
-        backgroundColor: Colors.grey,
-        child: Icon(icon, size: 20),
+      child: IconButton(
+        icon: Icon(
+          icon,
+          size: 25,
+          color: Colors.black,
+        ),
         onPressed: onPressed,
       ),
     );
