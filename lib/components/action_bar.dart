@@ -11,8 +11,18 @@ class ActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       TimerActionButton(
-          icon: timer.isRunning ? Icons.pause : Icons.play_arrow,
-          onPressed: timer.isRunning ? timer.pauseTimer : timer.startTimer),
+          icon: timer.status == TimerStatus.active
+              ? Icons.pause
+              : Icons.play_arrow,
+          onPressed: () {
+            if (timer.status == TimerStatus.initial) {
+              timer.startTimer();
+            } else if (timer.status == TimerStatus.active) {
+              timer.pauseTimer();
+            } else if (timer.status == TimerStatus.paused) {
+              timer.resumeTimer();
+            }
+          }),
       const SizedBox(width: 30),
       TimerActionButton(icon: Icons.refresh, onPressed: timer.resetTimer),
       const SizedBox(width: 30),

@@ -9,8 +9,6 @@ import 'package:pomodoro/models/ticker.dart' as tick;
 enum TimerStatus { initial, active, paused, complete }
 
 class AppModel extends ChangeNotifier {
-  Timer? _currentTimer;
-
   StreamSubscription<int>? _tickerSubscription;
   final ticker = tick.Ticker();
 
@@ -18,17 +16,19 @@ class AppModel extends ChangeNotifier {
   late String _currentTimerLabel;
   late int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
 
+  TimerStatus status = TimerStatus.initial;
+
   final database = AppData();
 
   AppModel() {
     _setWorkDuration();
   }
 
-  int get currentTime => currentTimerSeconds;
   bool isRunning = false;
 
   void startTimer() async {
-    isRunning = true;
+    status = TimerStatus.active;
+
     notifyListeners();
     await _tickerSubscription?.cancel();
     _tickerSubscription =
@@ -38,20 +38,20 @@ class AppModel extends ChangeNotifier {
   void resetTimer() async {
     await _tickerSubscription?.cancel();
 
+    status = TimerStatus.initial;
     currentTimerSeconds = workDuration.inSeconds;
-    isRunning = false;
     notifyListeners();
   }
 
   void pauseTimer() {
     _tickerSubscription?.pause();
-    isRunning = false;
+    status = TimerStatus.paused;
     notifyListeners();
   }
 
   void resumeTimer() {
     _tickerSubscription?.resume();
-    isRunning = true;
+    status = TimerStatus.active;
     notifyListeners();
   }
 
@@ -84,8 +84,6 @@ class AppModel extends ChangeNotifier {
   }
 
   void setWorkDuration(int duration) async {
-    _stopTimer();
-
     workDuration = Duration(seconds: duration);
     currentTimerSeconds = workDuration.inSeconds;
 

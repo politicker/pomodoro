@@ -29,7 +29,7 @@ class App extends StatelessWidget {
                   const Spacer(),
                   EditableLabel(onChanged: timer.setTimerLabel),
                   Clock(
-                    time: timer.currentTime,
+                    time: timer.currentTimerSeconds,
                     readOnly: timer.isRunning,
                     onChanged: timer.setWorkDuration,
                   ),
