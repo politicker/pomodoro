@@ -3,6 +3,7 @@ import 'dart:io';
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/components/progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:system_tray/system_tray.dart';
@@ -104,9 +105,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             primarySwatch: Colors.lightBlue,
             primaryColor: Colors.black,
-            textTheme: Theme.of(context)
-                .textTheme
-                .apply(bodyColor: Colors.black, displayColor: Colors.black)),
+            textTheme: GoogleFonts.firaCodeTextTheme()),
         home: const ProgressBar(),
       ),
     );

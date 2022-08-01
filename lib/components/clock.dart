@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 final textController = TextEditingController();
 
@@ -29,7 +30,11 @@ class Clock extends StatelessWidget {
         controller: _controller,
         readOnly: readOnly,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 120),
+        style: GoogleFonts.firaCode(
+          fontSize: 120,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+        ),
         onEditingComplete: () {
           onChanged(_clockTimeToSeconds(_controller.text));
         },
