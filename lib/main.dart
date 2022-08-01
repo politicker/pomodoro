@@ -3,7 +3,7 @@ import 'dart:io';
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pomodoro/app_view.dart';
+import 'package:pomodoro/components/progress_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:system_tray/system_tray.dart';
 import 'package:window_manager/window_manager.dart';
@@ -101,11 +101,10 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
-        title: 'Pomodoro',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
         ),
-        home: App(),
+        home: const ProgressBar(),
       ),
     );
   }
