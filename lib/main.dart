@@ -17,7 +17,7 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(700, 300),
+    size: Size(700, 400),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: true,
@@ -67,7 +67,6 @@ class _MyAppState extends State<MyApp> {
 
     // We first init the systray menu
     await systemTray.initSystemTray(
-      title: "system tray",
       iconPath: path,
     );
 

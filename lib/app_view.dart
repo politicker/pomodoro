@@ -26,14 +26,12 @@ class App extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const Spacer(),
                   EditableLabel(onChanged: timer.setTimerLabel),
                   Clock(
                     time: timer.currentTimerSeconds,
                     readOnly: timer.status != TimerStatus.initial,
                     onChanged: timer.setWorkDuration,
                   ),
-                  const Spacer(),
                   ActionBar(
                     timer: timer,
                   ),

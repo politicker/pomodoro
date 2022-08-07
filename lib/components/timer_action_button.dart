@@ -13,15 +13,15 @@ class TimerActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 35,
-      height: 35,
+      width: 75,
+      height: 75,
       child: IconButton(
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         icon: Icon(
           icon,
-          size: 25,
+          size: 75,
           color: Colors.black,
         ),
         onPressed: onPressed,
