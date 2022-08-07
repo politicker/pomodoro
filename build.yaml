@@ -2,6 +2,10 @@ targets:
   $default:
     builders:
       graphql_codegen:
+        generate_for:
+          - lib/*.graphql
         options:
+          outputDirectory: generated
           clients:
+            - graphql
             - graphql_flutter

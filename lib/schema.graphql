@@ -5,8 +5,10 @@ type Pomodoro {
     duration: Int!
 }
 
-type FinishPomodoroInput {
-    pomodoro: Pomodoro!
+input FinishPomodoroInput {
+    id: ID!
+    name: String!
+    duration: Int!
 }
 
 type Mutation {
