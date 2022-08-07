@@ -17,18 +17,16 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(700, 400),
-    minimumSize: Size(700, 400),
-    maximumSize: Size(700, 400),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: true,
-    titleBarStyle: TitleBarStyle.hidden,
-  );
+      size: Size(700, 400),
+      minimumSize: Size(700, 400),
+      maximumSize: Size(700, 400),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: true,
+      titleBarStyle: TitleBarStyle.hidden,
+      alwaysOnTop: true);
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.setSkipTaskbar(true);
-    await windowManager.setAlwaysOnTop(true);
     await windowManager.show();
     await windowManager.focus();
   });
