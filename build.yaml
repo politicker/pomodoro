@@ -8,4 +8,4 @@ targets:
           outputDirectory: generated
           clients:
             - graphql
-            - graphql_flutter
+            - graphql_flutter # we need this for hooks

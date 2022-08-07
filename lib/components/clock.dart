@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pomodoro/clock_input_formatter.dart';
 
 final textController = TextEditingController();
 
@@ -25,6 +26,7 @@ class Clock extends StatelessWidget {
     return TextField(
         keyboardType: TextInputType.number,
         inputFormatters: [
+          ClockInputFormatter(),
           FilteringTextInputFormatter.allow(RegExp('\\d|:')),
         ],
         controller: _controller,
