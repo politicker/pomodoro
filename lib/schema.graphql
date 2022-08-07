@@ -1,6 +1,3 @@
-type Query {
-    pomodoros: [Pomodoro!]!
-}
 
 type Pomodoro {
     id: ID!
@@ -14,4 +11,8 @@ type FinishPomodoroInput {
 
 type Mutation {
     finishPomodoro(input: FinishPomodoroInput): Pomodoro!
+}
+
+type Query {
+    pomodoros: [Pomodoro!]!
 }
