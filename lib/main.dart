@@ -4,12 +4,32 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pomodoro/components/progress_bar.dart';
+import 'package:pomodoro/generated/operations.graphql.dart';
 import 'package:provider/provider.dart';
 import 'package:system_tray/system_tray.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'models/app_model.dart';
+
+class FakeLink extends Link {
+  @override
+  Stream<Response> request(Request request, [NextLink? forward]) async* {
+    yield const Response(
+      data: null,
+      response: {},
+    );
+  }
+}
+
+final FakeLink link = FakeLink();
+
+final graphqlClient = GraphQLClient(
+  link: link,
+  // The default store is the InMemoryStore, which does NOT persist to disk
+  cache: GraphQLCache(store: HiveStore()),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +51,38 @@ void main() async {
     await windowManager.focus();
   });
 
+  await initHiveForFlutter();
+
+  final ValueNotifier<GraphQLClient> clientNotifier =
+      ValueNotifier(graphqlClient);
+
+  final queryRequest =
+      const Operation(document: documentNodeQuerygetPomodoros).asRequest();
+
+  var data = graphqlClient.readQuery(queryRequest);
+
+  if (data == null) {
+    data = {'pomodoros': [], '__typename': 'Query'};
+
+    graphqlClient.writeQuery(queryRequest, data: data);
+  }
+
   runApp(
     ChangeNotifierProvider(
-        create: (context) => AppModel(), child: const MyApp()),
+        create: (context) => AppModel(),
+        child: GraphqlWrapper(client: clientNotifier)),
   );
+}
+
+class GraphqlWrapper extends StatelessWidget {
+  final ValueNotifier<GraphQLClient> client;
+
+  const GraphqlWrapper({Key? key, required this.client}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GraphQLProvider(child: const MyApp(), client: client);
+  }
 }
 
 class MyApp extends StatefulWidget {

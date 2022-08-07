@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql/client.dart';
+import 'package:pomodoro/generated/operations.graphql.dart';
+import 'package:pomodoro/main.dart';
 import 'package:pomodoro/models/ticker.dart' as tick;
+import 'package:uuid/uuid.dart';
 
 import '../app_data.dart';
 
@@ -12,7 +16,7 @@ class AppModel extends ChangeNotifier {
   StreamSubscription<int>? _tickerSubscription;
   final ticker = tick.Ticker();
 
-  late Duration workDuration;
+  late Duration workDuration = const Duration(minutes: 20);
   late String _currentTimerLabel;
   late int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
 
@@ -66,17 +70,22 @@ class AppModel extends ChangeNotifier {
   }
 
   Future<void> save() async {
-    final data = await database.load();
-    final pomodoros = data['pomodoros'] as Map<String, dynamic>;
+    final queryRequest =
+        const Operation(document: documentNodeQuerygetPomodoros).asRequest();
 
-    if (pomodoros.containsKey(_currentTimerLabel)) {
-      final count = int.parse(pomodoros[_currentTimerLabel]);
-      pomodoros[_currentTimerLabel] = '${count + 1}';
-    } else {
-      pomodoros[_currentTimerLabel] = '1';
-    }
+    var data = graphqlClient.readQuery(queryRequest);
+    const uuid = Uuid();
 
-    database.update(data);
+    data ??= {'pomodoros': [], '__typename': 'Query'};
+
+    data['pomodoros'].add({
+      'id': uuid.v4(),
+      'name': _currentTimerLabel,
+      'duration': workDuration.inSeconds,
+      'persisted': false,
+    });
+
+    graphqlClient.writeQuery(queryRequest, data: data);
   }
 
   void setTimerLabel(String label) {
