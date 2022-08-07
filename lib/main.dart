@@ -60,8 +60,8 @@ class _MyAppState extends State<MyApp> {
     }
 
     String path = Platform.isWindows
-        ? 'assets/icons/system_tray.ico'
-        : 'assets/icons/system_tray.png';
+        ? 'assets/icons/tomato.ico'
+        : 'assets/icons/tomato.png';
 
     final SystemTray systemTray = SystemTray();
 

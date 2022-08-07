@@ -69,8 +69,8 @@ flutter:
   assets:
     - assets/sounds/timer_start.wav
     - assets/sounds/timer_finish.wav
-    - assets/icons/system_tray.ico
-    - assets/icons/system_tray.png
+    - assets/icons/tomato.ico
+    - assets/icons/tomato.png
     - assets/fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
