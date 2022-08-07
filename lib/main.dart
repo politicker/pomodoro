@@ -1,6 +1,4 @@
 import 'dart:io';
-
-// import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -120,16 +118,11 @@ class _MyAppState extends State<MyApp> {
 
     // handle system tray event
     systemTray.registerSystemTrayEventHandler((eventName) async {
-      debugPrint("eventName: $eventName");
-
       if (eventName == kSystemTrayEventClick) {
         if (await windowManager.isVisible()) {
-          debugPrint("closing window");
           await windowManager.hide();
         } else {
-          debugPrint("opening window");
           await windowManager.show();
-          // await windowManager.setSkipTaskbar(true);
         }
       }
     });
