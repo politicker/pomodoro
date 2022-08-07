@@ -1,0 +1,17 @@
+fragment pomodoro on Pomodoro {
+    id
+    name
+    duration
+}
+
+query getPomodoros {
+    pomodoros {
+        ...pomodoro
+    }
+}
+
+mutation finishPomodoro($input: FinishPomodoroInput) {
+    finishPomodoro(input: $input) {
+        ...pomodoro
+    }
+}

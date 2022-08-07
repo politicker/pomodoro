@@ -1,0 +1,17 @@
+type Query {
+    pomodoros: [Pomodoro!]!
+}
+
+type Pomodoro {
+    id: ID!
+    name: String!
+    duration: Int!
+}
+
+type FinishPomodoroInput {
+    pomodoro: Pomodoro!
+}
+
+type Mutation {
+    finishPomodoro(input: FinishPomodoroInput): Pomodoro!
+}
