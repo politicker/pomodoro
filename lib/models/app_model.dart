@@ -79,6 +79,7 @@ class AppModel extends ChangeNotifier {
     data ??= {'pomodoros': [], '__typename': 'Query'};
 
     data['pomodoros'].add({
+      '__typename': 'Pomodoro',
       'id': uuid.v4(),
       'name': _currentTimerLabel,
       'duration': workDuration.inSeconds,
