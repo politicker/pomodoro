@@ -6,6 +6,7 @@ import 'package:pomodoro/components/timer_action_button.dart';
 import 'package:provider/provider.dart';
 
 import 'components/editable_label.dart';
+import 'components/progress_tally.dart';
 import 'models/app_model.dart';
 
 class App extends StatelessWidget {

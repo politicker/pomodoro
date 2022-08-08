@@ -20,7 +20,6 @@ void main() async {
       size: Size(700, 400),
       minimumSize: Size(700, 400),
       maximumSize: Size(700, 400),
-      center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: true,
       titleBarStyle: TitleBarStyle.hidden,
