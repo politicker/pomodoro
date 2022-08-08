@@ -8,8 +8,8 @@ class TallyMark extends StatelessWidget {
     return Container(
       width: 20,
       height: 20,
-      decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 225, 224, 224), shape: BoxShape.circle),
+      decoration:
+          const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
     );
   }
 }

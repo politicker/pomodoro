@@ -17,8 +17,8 @@ class AppModel extends ChangeNotifier {
   final ticker = tick.Ticker();
 
   final Duration workDuration = const Duration(seconds: 5);
-  String _currentTimerLabel = 'create a timer!';
-  int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
+  String _currentTimerLabel = 'hackin\' on pomodoro';
+  int currentTimerSeconds = const Duration(seconds: 5).inSeconds;
 
   TimerStatus status = TimerStatus.initial;
 

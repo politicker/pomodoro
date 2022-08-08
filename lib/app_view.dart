@@ -7,6 +7,7 @@ import 'package:pomodoro/generated/operations.graphql.dart';
 import 'package:provider/provider.dart';
 
 import 'components/editable_label.dart';
+import 'components/progress_tally.dart';
 import 'models/app_model.dart';
 
 class App extends HookWidget {
