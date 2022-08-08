@@ -39,19 +39,6 @@ class App extends HookWidget {
                 children: [
                   Expanded(
                     child: Column(
-                      children: parsedData.pomodoros
-                          .map((pomodoro) => Container(
-                                width: 60,
-                                height: 60,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFe0f2f1)),
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -66,6 +53,15 @@ class App extends HookWidget {
                         ),
                       ],
                     ),
+                  ),
+                  Wrap(
+                    direction: Axis.vertical,
+                    textDirection: TextDirection.rtl,
+                    runSpacing: 5,
+                    spacing: 5,
+                    children: parsedData.pomodoros
+                        .map((pomodoro) => const TallyMark())
+                        .toList(),
                   ),
                 ],
               );
