@@ -1,0 +1,20 @@
+
+type Pomodoro {
+    id: ID!
+    name: String!
+    duration: Int!
+}
+
+input FinishPomodoroInput {
+    id: ID!
+    name: String!
+    duration: Int!
+}
+
+type Mutation {
+    finishPomodoro(input: FinishPomodoroInput): Pomodoro!
+}
+
+type Query {
+    pomodoros: [Pomodoro!]!
+}
