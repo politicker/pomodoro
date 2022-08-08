@@ -16,17 +16,15 @@ class AppModel extends ChangeNotifier {
   StreamSubscription<int>? _tickerSubscription;
   final ticker = tick.Ticker();
 
-  late Duration workDuration = const Duration(minutes: 20);
-  late String _currentTimerLabel;
-  late int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
+  final Duration workDuration = const Duration(seconds: 5);
+  String _currentTimerLabel = 'create a timer!';
+  int currentTimerSeconds = const Duration(minutes: 20).inSeconds;
 
   TimerStatus status = TimerStatus.initial;
 
   final database = AppData();
 
-  AppModel() {
-    _setWorkDuration();
-  }
+  AppModel();
 
   bool isRunning = false;
 
@@ -69,6 +67,8 @@ class AppModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setWorkDuration(int duration) {}
+
   Future<void> save() async {
     final queryRequest =
         const Operation(document: documentNodeQuerygetPomodoros).asRequest();
@@ -90,30 +90,6 @@ class AppModel extends ChangeNotifier {
 
   void setTimerLabel(String label) {
     _currentTimerLabel = label;
-  }
-
-  void setWorkDuration(int duration) async {
-    workDuration = Duration(seconds: duration);
-    currentTimerSeconds = workDuration.inSeconds;
-
-    final data = await database.load();
-    final settings = data['settings'] as Map<String, dynamic>;
-
-    settings['workDuration'] = workDuration.inMinutes;
-
-    database.update(data);
-
-    notifyListeners();
-  }
-
-  Future<void> _setWorkDuration() {
-    return database.load().then((data) {
-      final settings = data['settings'] as Map<String, dynamic>;
-
-      workDuration = Duration(minutes: settings['workDuration']);
-      currentTimerSeconds = workDuration.inSeconds;
-      notifyListeners();
-    });
   }
 
   void _onTimerComplete() {
